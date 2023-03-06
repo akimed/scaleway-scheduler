@@ -1,0 +1,39 @@
+service: instance-scheduler
+configValidationMode: off
+provider:
+  name: scaleway
+  runtime: python311 # Available python runtimes are listed in documentation
+
+  scwToken: ${env:SCW_SECRET_KEY} # Those are my own credentials for uploading the function 
+  scwProject: ${env:SCW_DEFAULT_PROJECT_ID}
+  scwRegion: ${env:SCW_REGION}
+  secret: # Those are the cretentials given to the function
+    SCW_ACCESS_KEY: ${env:SCW_ACCESS_KEY_FUNCTION}
+    SCW_SECRET_KEY: ${env:SCW_SECRET_KEY_FUNCTION}
+
+plugins:
+  - serverless-scaleway-functions
+  - serverless-python-requirements
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!.gitignore'
+    - '!.git/**'
+    - '!.env'
+
+functions:
+  first:
+    handler: handler.listInstances
+    description: "test"
+    events:
+      - schedule:
+          rate: '1 * * * *'
+    memoryLimit: 128
+    maxScale: 1
+#    privacy: "private"
+
+
+useDotenv: true
+custom:
+  pythonRequirements:
+    pythonBin: /opt/homebrew/bin/python3.11

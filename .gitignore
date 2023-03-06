@@ -1,0 +1,7 @@
+node_modules/
+.vscode/settings.json
+.serverless/instance-scheduler.zip
+.serverless/requirements
+.serverless/requirements.txt
+.env
+package-lock.json
