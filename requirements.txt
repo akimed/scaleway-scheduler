@@ -1,1 +1,1 @@
-scaleway-async
+scaleway

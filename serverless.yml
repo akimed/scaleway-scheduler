@@ -10,6 +10,9 @@ provider:
   secret: # Those are the cretentials given to the function
     SCW_ACCESS_KEY: ${env:SCW_ACCESS_KEY_FUNCTION}
     SCW_SECRET_KEY: ${env:SCW_SECRET_KEY_FUNCTION}
+    SCW_DEFAULT_PROJECT_ID: ${env:SCW_DEFAULT_PROJECT_ID_FUNCTION}
+    SCW_DEFAULT_REGION: ${env:SCW_DEFAULT_REGION_FUNCTION}
+    SCW_DEFAULT_ZONE: ${env:SCW_DEFAULT_ZONE_FUNCTION}
 
 plugins:
   - serverless-scaleway-functions
@@ -22,12 +25,21 @@ package:
     - '!.env'
 
 functions:
-  first:
-    handler: handler.listInstances
-    description: "test"
+  stopschedule:
+    handler: handler.stopSchedule
+    description: "stopSchedule"
     events:
       - schedule:
-          rate: '1 * * * *'
+          rate: '00 19 * * 1-5'
+    memoryLimit: 128
+    maxScale: 1
+#    privacy: "private"
+  startschedule:
+    handler: handler.startSchedule
+    description: "startSchedule"
+    events:
+      - schedule:
+          rate: '00 9 * * 1-5'
     memoryLimit: 128
     maxScale: 1
 #    privacy: "private"
